@@ -1,0 +1,70 @@
+DROP TABLE BUYERS;
+DROP TABLE HOUSE;
+DROP TABLE SELLER;
+DROP TABLE AGENTPHONE;
+DROP TABLE AGENT;
+
+--Agent Table--
+CREATE TABLE AGENT
+(
+    A_ID NUMBER,
+    A_Name VARCHAR(15),
+    Office VARCHAR(35),
+    
+    CONSTRAINT PK_Agent PRIMARY KEY(A_ID)
+);
+
+--Seller Table--
+CREATE TABLE SELLER
+(
+    S_SSN VARCHAR(15),
+    S_Name VARCHAR(15),
+    Spouse VARCHAR(15),
+    S_PhoneNum VARCHAR(15),
+    
+    CONSTRAINT PK_Seller PRIMARY KEY (S_SSN)
+);
+
+--Buyers table--
+CREATE TABLE BUYERS
+(
+    B_AgentID NUMBER,
+    BuyerName VARCHAR(15),
+    B_SSN VARCHAR(15),
+    B_PhoneNum VARCHAR(15),
+    MaxPrice NUMBER,
+    MinPrice NUMBER,
+    
+    CONSTRAINT PK_Buyer PRIMARY KEY (B_SSN),
+    CONSTRAINT FK_Agent FOREIGN KEY (B_AgentID)REFERENCES AGENT(A_ID)
+);
+
+--AgentPhoneNUm Table--
+CREATE TABLE AGENTPHONE
+(
+    A_AgentID NUMBER,
+    A_PhoneNum VARCHAR(15),
+    
+    CONSTRAINT PK_AgentPhoneNum PRIMARY KEY(A_AgentID, A_PhoneNum),
+    CONSTRAINT FK_AgentPhoneNum FOREIGN KEY (A_AgentID) REFERENCES AGENT(A_ID)
+);
+
+
+--House Table--
+CREATE TABLE HOUSE
+(
+    HouseID NUMBER,
+    H_SellerSSN VARCHAR(15),
+    H_AgentID NUMBER,
+    Commission NUMBER,
+    Price NUMBER,
+    State CHAR(2),
+    StreetName VARCHAR(20),
+    Sqft NUMBER,
+    
+    CONSTRAINT PK_House PRIMARY KEY (HouseID),
+    CONSTRAINT FK_Seller FOREIGN KEY (H_SellerSSN) REFERENCES SELLER(S_SSN),
+    CONSTRAINT FK_AgentID FOREIGN KEY (H_AgentID) REFERENCES AGENT(A_ID)
+    
+);
+
